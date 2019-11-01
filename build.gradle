@@ -1,4 +1,5 @@
 plugins {
+    id "com.jfrog.bintray" version "1.8.4"
     id 'java'
     id 'idea'
     id 'eclipse'
@@ -56,3 +57,71 @@ task sourcesJar(type: Jar) {
     archiveClassifier = 'sources'
 }
 
+artifacts {
+    archives sourcesJar
+}
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "Skaelch"
+            name "Skaelch"
+            email "ska@intersoft.de"
+        }
+    }
+
+    scm {
+        url "https://github.com/Skaelch/intersoft-hal-forms-util"
+    }
+}
+
+publishing {
+    publications {
+        mavenPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar {
+                classifier "sources"
+            }
+            groupId 'de.intersoft.hal.forms'
+            artifactId 'de.intersoft.hal.forms'
+            version '0.1.0'
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'An AWESOME lib. Really!')
+                root.appendNode('name', 'de.intersoft.hal.forms')
+                root.appendNode('url', 'https://github.com/Skaelch/intersoft-hal-forms-util')
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+bintray {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publications = ['mavenPublication']
+
+    pkg {
+        repo = 'de.intersoft.hal.forms'
+        name = 'intersoft-hal-forms-util'
+        userOrg = 'skaelch'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/Skaelch/intersoft-hal-forms-util'
+        version {
+            name = '0.1.0'
+            desc = '0.1.0'
+            released  = new Date()
+        }
+    }
+
+}
