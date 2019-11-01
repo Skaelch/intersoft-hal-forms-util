@@ -1,4 +1,4 @@
-package hal.forms;
+package de.intersoft.hal.forms;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 import static de.otto.edison.hal.Curies.emptyCuries;

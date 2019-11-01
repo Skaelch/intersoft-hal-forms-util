@@ -1,4 +1,4 @@
-package hal.forms;
+package de.intersoft.hal.forms;
 
 import static java.util.Objects.requireNonNull;
 
