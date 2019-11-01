@@ -5,7 +5,7 @@ When using hypermedia based REST resources you will need a common standard. Besi
 intersoft created even more details follwing the hal forms standard ( https://rwcbook.github.io/hal-forms/ ) and helps you creating forms.
 
 ## Use
-
+  ```java
   halRepresentation = new HalFormsRepresentation(
       linkingTo()
           .self(selfUriString)
